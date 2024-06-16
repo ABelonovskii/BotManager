@@ -1,0 +1,39 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Settings</h1>
+
+    <!-- Weight Change Card -->
+        <div class="card-keys border-left-primary shadow h-100 py-2 mb-3">
+            <div class="card-body">
+                <h2> Keys </h2>
+
+                <form method="post" class="horison">
+                    {% csrf_token %}
+                    <div class="key-panel"> {{ keys_form.API_KEY }} </div>
+                    <div class="key-panel"> {{ keys_form.API_SECRET }} </div>
+                    <div class="key-button"> <button class="btn btn-info" name="form_type" value="keys_form" type="submit"><i class="fa-solid fa-circle-check"></i> Apply </button> </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card-keys border-left-primary shadow h-100 py-2 mb-3">
+            <div class="card-body">
+                <h2> Bots and gens </h2>
+
+                <form method="post" class="horison">
+                    {% csrf_token %}
+                    <div class="key-panel"> {{ bot_path_form.Bot_Path_Body }} </div>
+                    <div class="key-panel"> {{ bot_path_form.Bot_Path_Gen }} </div>
+                    <div class="key-button"> <button class="btn btn-info" name="form_type" value="bot_path_form"  type="submit"><i class="fa-solid fa-circle-check"></i> Apply </button> </div>
+                </form>
+            </div>
+        </div>
+
+
+         {#комментарии#}
+    </div>
+{% endblock %}

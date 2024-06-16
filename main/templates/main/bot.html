@@ -1,0 +1,118 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Bot{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1> Bot </h1>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+        <div class="mb-4" >
+            <div class="card border-light shadow-sm">
+                <div class="card-header" >
+                    <div class="row d-block d-xl-flex align-items-center">
+
+                        <div class="special col-xl-5 mb-xl-0 d-flex" >
+                            {% if on_start %}
+                                <form method="post" class="from-start">
+                                    {% csrf_token %}
+                                    <button class="btn btn-success" value="0" type="submit">
+                                      <div style="display: flex; align-items: center;">
+                                        <i class="fa-solid fa-rocket"></i>
+                                        <span>Start</span>
+                                      </div>
+                                    </button>
+                                </form>
+                            {% else %}
+                                <form method="post" class="from-start">
+                                    {% csrf_token %}
+                                    <button class="btn btn-secondary" value="1" type="submit">
+                                      <div style="display: flex; align-items: center;">
+                                        <i class="fa-solid fa-rocket"></i>
+                                        <span>Start</span>
+                                      </div>
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+
+                        <div id="progress-box" class="col-xl-7 px-xl-0">
+
+                            <div id="message_status">Current status</div>
+                            <div class="meter">
+                                <span id="progressbar" style="width: 0%"></span>
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(function () {
+
+                              var status_text = document.getElementById("message_status");
+                              var progressbar = document.getElementById("progressbar");
+                              var id = setInterval(update_status, 1000);
+
+                              function update_status() {
+                                $.ajax({
+                                  type: 'GET',
+                                  success: function (response){
+                                    status_text.textContent = response.message_status;
+                                    progressbar.style.width = response.message_progress + '%';
+                                  }
+                                })
+                              }
+
+                              /**
+                                $(".meter > span").each(function () {
+                                  $(this)
+                                    .data("origWidth", $(this).width())
+                                    .width(0)
+                                    .animate(
+                                      {
+                                        width: $(this).data("origWidth")
+                                      },
+                                      1200
+                                    );
+                                });
+                              **/
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-body border-light shadow-sm table-wrapper table-responsive pt-0" >
+
+            <table class="profit-table">
+                <thead>
+                    <tr>
+                        <th class="order_pair">Pair</th>
+                        <th class="buy_time">Buy Time</th>
+                        <th class="buy_total">Buy Total</th>
+                        <th class="buy_price">Buy Price</th>
+                        <th class="sell_time">Sell Time</th>
+                        <th class="sell_total">Sell Total</th>
+                        <th class="sell_price">Sell Price</th>
+                        <th class="profit">Profit</th>
+                        <th class="close_">Current Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in profit_table %}
+                        <tr>
+                            <td class="order_pair">{{ row.Pair_Name }}</td>
+                            <td class="buy_time">{{ row.buy_created }}</td>
+                            <td class="buy_total">{{ row.buy_total }}</td>
+                            <td class="buy_price">{{ row.buy_price }}</td>
+                            <td class="sell_time">{{ row.sell_finished }}</td>
+                            <td class="sell_total">{{ row.sell_total }}</td>
+                            <td class="sell_price">{{ row.sell_price }}</td>
+                            <td class="profit" >{{ row.Profit }}</td>
+                            <td class="close_">{{ row.close }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

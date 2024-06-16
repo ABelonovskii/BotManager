@@ -1,0 +1,36 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Logs{% endblock %}
+
+{% block content %}
+
+    <div class="features">
+        <h1>Logs</h1>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <!--link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"-->
+
+
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Info</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="warning-tab" data-bs-toggle="tab" data-bs-target="#warning" type="button" role="tab" aria-controls="warning" aria-selected="false">Warning</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="error-tab" data-bs-toggle="tab" data-bs-target="#error" type="button" role="tab" aria-controls="error" aria-selected="false">Error</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab"><textarea rows="22" cols="130"  readonly>{% for log in logs_info %}{{ log }}{% endfor %}</textarea></div>
+          <div class="tab-pane fade" id="warning" role="tabpanel" aria-labelledby="warning-tab"><textarea rows="22" cols="130"  readonly>{% for log in logs_warning %}{{ log }}{% endfor %}</textarea></div>
+          <div class="tab-pane fade " id="error" role="tabpanel" aria-labelledby="error-tab"><textarea rows="22" cols="130"  readonly>{% for log in logs_error %}{{ log }}{% endfor %}</textarea></div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+

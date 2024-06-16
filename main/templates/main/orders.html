@@ -1,0 +1,165 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+
+     <div class="features">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+        <div style="width: 1180px; overflow-x: auto;">
+            <div class="card card-body border-light shadow-sm table-wrapper table-responsive pt-0" >
+
+                <div class="table-settings mb-4">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-4 col-md-2 col-xl-1 pl-md-0 text-right">
+                            <div class="btn-group">
+                                <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="icon icon-sm icon-gray">
+                                        <span class="fas fa-cog"></span>
+                                    </span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+
+                                <div class="dropdown-menu  dropdown-menu-right">
+                                    <span class="dropdown-item font-weight-bold text-dark">Fields</span>
+                                     <div class="dropdown-row">
+                                      <div class="dropdown-column">
+                                            <!--a class="dropdown-item font-weight-bold" href="#"><input type="checkbox" name="order_type" > Type </a-->
+                                            <a class="dropdown-item font-weight-bold" href="#"><input type="checkbox" name="order_pair" > Pair </a>
+                                            <a class="dropdown-item font-weight-bold" href="#"><input type="checkbox" name="buy_time" id="chk"> Buy Time </a>
+                                            <a class="dropdown-item font-weight-bold" href="#"><input type="checkbox" name="buy_total" > Buy Total </a>
+                                            <a class="dropdown-item font-weight-bold" href="#"><input type="checkbox" name="buy_price" id="other"> Buy Price </a>
+                                            </div>
+                                            <div class="dropdown-column">
+                                            <!--a class="dropdown-item font-weight-bold" href="#"><input type="checkbox" name="sell_order_id" > Sell Order ID</a-->
+                                            <a class="dropdown-item font-weight-bold" href="#"><input type="checkbox" name="sell_time" > Sell Time </a>
+                                            <a class="dropdown-item font-weight-bold" href="#"><input type="checkbox" name="sell_total" > Sell Total </a>
+                                            <a class="dropdown-item font-weight-bold" href="#"><input type="checkbox" name="sell_price" > Sell Price </a>
+                                            <a class="dropdown-item font-weight-bold" href="#"><input type="checkbox" name="profit" > Profit </a>
+                                      </div>
+                                    </div>
+                                </div>
+
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+                                <script>
+                                    $("input:checkbox").attr("checked", true).click(function (){
+                                        var shcolumn = "." + $(this).attr("name");
+                                        $(shcolumn).toggle();
+                                    });
+                                </script>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+                <link rel="stylesheet"  href="https://cdn.datatables.net/fixedheader/3.2.3/css/fixedHeader.dataTables.min.css">
+
+                <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+                <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+                <script src="https://cdn.datatables.net/fixedheader/3.2.3/js/dataTables.fixedHeader.min.js"></script>
+
+                <script>
+                    $(document).ready(function () {
+                      // Setup - add a text input to each footer cell
+                      $('#example thead tr')
+                        .clone(true)
+                        .addClass('filters')
+                        .appendTo('#example thead');
+
+                      var table = $('#example').DataTable({
+                        orderCellsTop: true,
+                        fixedHeader: true,
+                        initComplete: function () {
+                          var api = this.api();
+
+                          // For each column
+                          api
+                            .columns()
+                            .eq(0)
+                            .each(function (colIdx) {
+                              // Set the header cell to contain the input element
+                              var cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                              );
+                              var title = $(cell).text();
+                              $(cell).html('<input type="text" placeholder="' + title + '" size="15%"/>');
+
+                              // On every keypress in this input
+                              $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                              )
+                                .off('keyup change')
+                                .on('change', function (e) {
+                                  // Get the search value
+                                  $(this).attr('title', $(this).val());
+                                  var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                  var cursorPosition = this.selectionStart;
+                                  // Search the column for that value
+                                  api
+                                    .column(colIdx)
+                                    .search(
+                                      this.value != ''
+                                        ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                        : '',
+                                      this.value != '',
+                                      this.value == ''
+                                    )
+                                    .draw();
+                                })
+                                .on('keyup', function (e) {
+                                  e.stopPropagation();
+
+                                  $(this).trigger('change');
+                                  $(this)
+                                    .focus()[0]
+                                    .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                            });
+                        },
+                      });
+                    });
+                </script>
+
+                <table  class="table table-hover" style="font-size:10px" id="example" >
+                    <thead>
+                        <tr>
+                            <!--th class="order_type">Type</th-->
+                            <th class="order_pair">Pair</th>
+                            <th class="buy_time">Buy Time</th>
+                            <th class="buy_total">Buy Total</th>
+                            <th class="buy_price">Buy Price</th>
+                            <th class="sell_time">Sell Time</th>
+                            <th class="sell_total">Sell Total</th>
+                            <th class="sell_price">Sell Price</th>
+                            <th class="profit">Profit</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        {% for id, order in orders.items %}
+                            <tr>
+                                <!--td class="order_type">{{ order.order_type }}</td-->
+                                <td class="order_pair">{{ order.order_pair }}</td>
+                                <td class="buy_time">{{ order.buy_created }}</td>
+                                <td class="buy_total">{{ order.buy_total }}</td>
+                                <td class="buy_price">{{ order.buy_price }}</td>
+                                <td class="sell_time">{{ order.sell_finished }}</td>
+                                <td class="sell_total">{{ order.sell_total }}</td>
+                                <td class="sell_price">{{ order.sell_price }}</td>
+                                <td class="profit">{{ order.profit }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

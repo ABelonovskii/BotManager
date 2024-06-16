@@ -1,0 +1,19 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Pair{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Pair</h1>
+
+        <form method="post" class="horison">
+            {% csrf_token %}
+            <div class="horisont">{{ form.Pair_Name }}</div>
+            <div class="horisont">{{ form.Pair_quote }}</div>
+            <div class="horisont">{{ form.Pair_base }}</div>
+            <div class="horisont">{{ form.Spend_amount }}</div>
+            <div class="horisont"><button class="btn btn-warning" type="submit"><i class="fa-solid fa-pencil"></i> Edit pair </button></div>
+        </form>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Pairs{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Pairs</h1>
+
+        <table class="separate">
+            <tr>
+               <th>Name</th>
+               <th>Amount</th>
+               <th>Actions</th>
+               <th>Buy</th>
+            </tr>
+            {% for el in pairs %}
+                <tr>
+                   <td>{{ el.Pair_Name }}</td>
+                   <td>{{ el.Spend_amount }}</td>
+                   <td>
+                     <a href ="{% url 'pair-update' el.id %}" class="btn btn-outline-success"><i class="fa-solid fa-pencil"></i></a>
+                     <a href ="{% url 'pair-delete' el.id %}" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>
+                   </td>
+                   <td>
+                     <a href="{% url 'toggle_active' el.id %}"  class="{% if el.active %}btn btn-outline-info{% else %}btn btn-outline-secondary{% endif %}">
+                       {% if el.active %}
+                         <i class="fa-solid fa-toggle-on"></i>
+                       {% else %}
+                         <i class="fa-solid fa-toggle-off"></i>
+                       {% endif %}
+                     </a>
+                   </td>
+                </tr>
+            {% endfor %}
+         </table>
+
+        <form method="post" class="horison">
+            {% csrf_token %}
+            <div class="horisont">{{ form.Pair_Name }}</div>
+            <div class="horisont">{{ form.Pair_quote }}</div>
+            <div class="horisont">{{ form.Pair_base }}</div>
+            <div class="horisont">{{ form.Spend_amount }}</div>
+            <div class="horisont"><button class="btn btn-success" type="submit"><i class="fa-solid fa-circle-plus"></i> Add pair </button></div>
+        </form>
+
+    </div>
+{% endblock %}
