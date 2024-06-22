@@ -63,3 +63,7 @@ Below is a screenshot of the application:
 ![Program Screenshot](source/program_image_2.png)
 
 ![Program Screenshot](source/program_image.png)
+
+### Copyright
+
+© 2024, Aleksei Belonovskii
